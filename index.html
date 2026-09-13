@@ -42,13 +42,14 @@
             margin-bottom: 20px;
             border-radius: 10px;
         }
-        /* Buttons sit naturally side-by-side now */
+        /* Buttons sit safely side-by-side initially with a gap */
         .btn-group {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 40px; 
             margin-top: 20px;
             height: 50px;
+            position: relative;
         }
         button {
             padding: 12px 25px;
@@ -61,13 +62,12 @@
         #yesBtn {
             background-color: #ff4d6d;
             color: white;
-            transition: transform 0.2s ease;
         }
         #noBtn {
             background-color: #6c757d;
             color: white;
-            /* Smooth transitions for jumping around */
-            transition: transform 0.2s ease; 
+            /* Transition added only for smooth tracking movement later */
+            transition: all 0.1s ease;
         }
         /* Date Selector Styles */
         .planner-form {
@@ -120,7 +120,7 @@
 </head>
 <body>
 
-    <div class="container" id="mainContainer">
+    <div class="container">
         <div id="inviteStage">
             <div class="gif-container">
                 <!-- Direct ultra-reliable Milk & Mocha kissing GIF -->
@@ -172,12 +172,18 @@
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
             
-            // Generate a random position to jump to across the screen
-            // Using viewport widths/heights relative boundaries safely
-            const randomX = Math.floor(Math.random() * 240) - 120; // Moves left or right up to 120px
-            const randomY = Math.floor(Math.random() * 300) - 150; // Moves up or down up to 150px
+            // Instantly break the layout position when interaction starts so it flies free
+            noBtn.style.position = 'fixed';
             
-            noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            // Calculate a completely random viewport position, keeping a safe margin from screen borders
+            const maxX = window.innerWidth - noBtn.offsetWidth - 40;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 40;
+            
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
         }
 
         function celebrate() {
