@@ -155,7 +155,7 @@
                 <select id="dateType">
                     <option value="Yapping over dinner 🍽️">☕ Yapping over dinner</option>
                     <option value="Watching YouTube together 🎬">🎬 Watching YouTube together</option>
-                    <option value="Online games/quizzes + drawing 🎨  \%)$.">🎨 Online games/quizzes + drawing</option>
+                    <option value="Online games/quizzes + drawing 🎨">🎨 Online games/quizzes + drawing</option>
                     <option value="Surprise Me! 🎁">🎁 Surprise Me!</option>
                 </select>
             </div>
@@ -233,18 +233,18 @@
             const day = document.getElementById('dateDay').value;
             const time = document.getElementById('dateTime').value || "Anytime!";
             
-            const messageText = `I filled out the date invite form 🥰\n\n✨ Activity: ${type}\n📅 Day: ${day}\n⏰ Time/Notes: ${time}\n\nIt's a date! ❤️`;
+            const messageText = `I filled out the date invite form 🥰\n\n✨ Activity: ${type}\n📅 Day: ${day}\n⏰ Time/Notes: ${time}\n\nIt's a date ❤️`;
             
             const container = document.getElementById('plannerForm');
             container.innerHTML = `
                 <div style="text-align: center;">
-                    <h2 style="margin-bottom: 10px;">Perfect! It's Booked! 🥰</h2>
-                    <p style="color: #4f5d75; font-size: 14px;">Tap the button below to copy your selections, then paste them back into our text chat!</p>
+                    <h2 style="margin-bottom: 10px;">Perfect, it's Booked!</h2>
+                    <p style="color: #4f5d75; font-size: 14px;">Tap the button below to copy your selections, then paste them back into our text chat</p>
                     
                     <div class="summary-box" id="textToCopy">${messageText.replace(/\n/g, '<br>')}</div>
                     
                     <button class="submit-btn" id="copyBtn" onclick="copyToClipboard('${btoa(unescape(encodeURIComponent(messageText)))}')">Copy Details 📋</button>
-                    <p id="copyAlert" style="color: #ff4d6d; font-size: 13px; margin-top: 10px; font-weight: bold; display: none;">Copied! Ready to paste into our chat thread. 💌</p>
+                    <p id="copyAlert" style="color: #ff4d6d; font-size: 13px; margin-top: 10px; font-weight: bold; display: none;">Ready to paste into our chat thread 💌</p>
                 </div>
             `;
         }
