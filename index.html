@@ -36,11 +36,17 @@
             font-size: 16px;
             margin-bottom: 25px;
         }
-        .gif-container img {
-            width: 160px;
-            height: auto;
-            margin-bottom: 20px;
-            border-radius: 10px;
+        /* Beautiful native CSS pulsing heart icon */
+        .emoji-avatar {
+            font-size: 70px;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
         }
         /* Buttons sit safely side-by-side initially with a gap */
         .btn-group {
@@ -66,7 +72,6 @@
         #noBtn {
             background-color: #6c757d;
             color: white;
-            /* Transition added only for smooth tracking movement later */
             transition: all 0.1s ease;
         }
         /* Date Selector Styles */
@@ -122,10 +127,8 @@
 
     <div class="container">
         <div id="inviteStage">
-            <div class="gif-container">
-                <!-- Direct ultra-reliable Milk & Mocha kissing GIF -->
-                <img src="https://giphy.com" alt="Cute animation">
-            </div>
+            <!-- Replaced broken image link with natively animated pulsing heart cluster -->
+            <div class="emoji-avatar">❤️‍🔥</div>
             <h1 id="question">Will you go on a virtual date with me? ☕✨</h1>
             <p id="details">Let's set up something fun!</p>
             
@@ -171,11 +174,8 @@
     <script>
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
-            
-            // Instantly break the layout position when interaction starts so it flies free
             noBtn.style.position = 'fixed';
             
-            // Calculate a completely random viewport position, keeping a safe margin from screen borders
             const maxX = window.innerWidth - noBtn.offsetWidth - 40;
             const maxY = window.innerHeight - noBtn.offsetHeight - 40;
             
