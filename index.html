@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Invitation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #ffe6e6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            max-width: 90%;
+            width: 350px;
+            z-index: 10;
+        }
+        h1 {
+            color: #ff4d6d;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #4f5d75;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        .gif-container img {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: space-around;
+            position: relative;
+            height: 50px;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+        }
+        #noBtn {
+            background-color: #6c757d;
+            color: white;
+            position: absolute;
+            right: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- You can swap this GIF link with any cute Milk & Mocha or Peach Goma gif -->
+        <div class="gif-container">
+            <img src="https://giphy.com" alt="Cute hearts">
+        </div>
+        <h1 id="question">Want to go on a virtual date together? ☕✨</h1>
+        <p id="details">Let me know your availability next week </p>
+        
+        <div class="btn-group">
+            <button id="yesBtn" onclick="celebrate()">Yes! 🥰</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No 😢</button>
+        </div>
+    </div>
+
+    <script>
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            // Calculate a random position within the viewport bounds, keeping it mostly accessible on mobile screens
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 40) + 20;
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 40) + 20;
+            
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+            document.getElementById('question').innerText = "Yay! It's a date! 🎉❤️";
+            document.getElementById('details').innerText = "Can't wait! I'll text you to coordinate the time and place.";
+            document.getElementById('noBtn').style.display = 'none';
+            document.getElementById('yesBtn').style.transform = 'scale(1.2)';
+            
+            // Optional: Add simple falling heart emojis
+            for (let i = 0; i < 20; i++) {
+                createHeart();
+            }
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerText = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '-5vh';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.transform = `rotate(${Math.random() * 360}deg)`;
+            heart.style.pointerEvents = 'none';
+            heart.style.transition = 'transform 3s linear, top 3s linear';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.style.top = '105vh';
+                heart.style.transform = `rotate(${Math.random() * 360}deg) translateY(100px)`;
+            }, 50);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
