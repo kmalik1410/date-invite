@@ -15,7 +15,7 @@
             background-color: #ffe6e6;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
-            overflow: hidden;
+            overflow-x: hidden;
         }
         .container {
             background-color: white;
@@ -23,8 +23,9 @@
             border-radius: 20px;
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             max-width: 90%;
-            width: 350px;
+            width: 360px;
             z-index: 10;
+            transition: all 0.5s ease;
         }
         h1 {
             color: #ff4d6d;
@@ -34,17 +35,20 @@
         p {
             color: #4f5d75;
             font-size: 16px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         .gif-container img {
-            width: 150px;
+            width: 160px;
+            height: auto;
             margin-bottom: 20px;
+            border-radius: 10px;
         }
         .btn-group {
             display: flex;
             justify-content: space-around;
             position: relative;
-            height: 50px;
+            height: 60px;
+            align-items: center;
         }
         button {
             padding: 12px 25px;
@@ -53,57 +57,145 @@
             border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
-            transition: transform 0.2s;
+            transition: transform 0.1s ease;
         }
         #yesBtn {
             background-color: #ff4d6d;
             color: white;
+            z-index: 5;
         }
         #noBtn {
             background-color: #6c757d;
             color: white;
             position: absolute;
-            right: 30px;
+            z-index: 20;
+        }
+        /* Date Selector Styles */
+        .planner-form {
+            display: none;
+            text-align: left;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .planner-form h2 {
+            color: #ff4d6d;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            color: #4f5d75;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ffa6b6;
+            border-radius: 10px;
+            font-size: 14px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        select:focus, input:focus {
+            border-color: #ff4d6d;
+        }
+        .submit-btn {
+            width: 100%;
+            background-color: #ff4d6d;
+            color: white;
+            padding: 12px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-top: 15px;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- You can swap this GIF link with any cute Milk & Mocha or Peach Goma gif -->
-        <div class="gif-container">
-            <img src="https://giphy.com" alt="Cute hearts">
+    <div class="container" id="mainContainer">
+        <div id="inviteStage">
+            <div class="gif-container">
+                <!-- Direct animated peach goma milk love gif -->
+                <img src="https://giphy.com" alt="Cute hearts animation">
+            </div>
+            <h1 id="question">Will you go on a virtual date with me? ☕✨</h1>
+            <p id="details">Let's set up something fun!</p>
+            
+            <div class="btn-group">
+                <button id="yesBtn" onclick="celebrate()">Yes! 🥰</button>
+                <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No 😢</button>
+            </div>
         </div>
-        <h1 id="question">Want to go on a virtual date together? ☕✨</h1>
-        <p id="details">Let me know your availability next week </p>
-        
-        <div class="btn-group">
-            <button id="yesBtn" onclick="celebrate()">Yes! 🥰</button>
-            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No 😢</button>
+
+        <!-- Hidden Planner Form -->
+        <div class="planner-form" id="plannerForm">
+            <h2>Let's Plan Our Date! 🎉❤️</h2>
+            
+            <div class="form-group">
+                <label for="dateType">What kind of date sounds best?</label>
+                <select id="dateType">
+                    <option value="Virtual Coffee">☕ Virtual Coffee</option>
+                    <option value="Movie Stream">🎬 Co-watching a Movie</option>
+                    <option value="Online Games">🎮 Playing Online Games</option>
+                    <option value="Surprise You">🎁 Surprise You!</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="dateDay">Preferred Day</label>
+                <select id="dateDay">
+                    <option value="Friday">Friday Night</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                    <option value="Weekdays">A Weekday Evening</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="dateTime">Preferred Time / Notes</label>
+                <input type="text" id="dateTime" placeholder="e.g., around 7 PM, anytime after work">
+            </div>
+
+            <button class="submit-btn" onclick="submitPreferences()">Lock it in! 🔒</button>
         </div>
     </div>
 
     <script>
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
-            // Calculate a random position within the viewport bounds, keeping it mostly accessible on mobile screens
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 40) + 20;
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 40) + 20;
             
-            noBtn.style.position = 'absolute';
+            // Calculate randomized window boundaries securely
+            const maxX = window.innerWidth - noBtn.offsetWidth - 40;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 40;
+            
+            const x = Math.max(20, Math.min(Math.random() * maxX, maxX));
+            const y = Math.max(20, Math.min(Math.random() * maxY, maxY));
+            
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
         }
 
         function celebrate() {
-            document.getElementById('question').innerText = "Yay! It's a date! 🎉❤️";
-            document.getElementById('details').innerText = "Can't wait! I'll text you to coordinate the time and place.";
-            document.getElementById('noBtn').style.display = 'none';
-            document.getElementById('yesBtn').style.transform = 'scale(1.2)';
+            // Hide invitation content smoothly
+            document.getElementById('inviteStage').style.display = 'none';
             
-            // Optional: Add simple falling heart emojis
-            for (let i = 0; i < 20; i++) {
-                createHeart();
+            // Reveal and fade-in the scheduling menu
+            const form = document.getElementById('plannerForm');
+            form.style.display = 'block';
+            setTimeout(() => { form.style.opacity = '1'; }, 50);
+            
+            // Start raining hearts effect
+            for (let i = 0; i < 25; i++) {
+                setTimeout(createHeart, i * 100);
             }
         }
 
@@ -113,9 +205,10 @@
             heart.style.position = 'fixed';
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.top = '-5vh';
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            heart.style.fontSize = Math.random() * 20 + 15 + 'px';
             heart.style.transform = `rotate(${Math.random() * 360}deg)`;
             heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '999';
             heart.style.transition = 'transform 3s linear, top 3s linear';
             
             document.body.appendChild(heart);
@@ -125,9 +218,23 @@
                 heart.style.transform = `rotate(${Math.random() * 360}deg) translateY(100px)`;
             }, 50);
             
-            setTimeout(() => {
-                heart.remove();
-            }, 3000);
+            setTimeout(() => { heart.remove(); }, 3000);
+        }
+
+        function submitPreferences() {
+            const type = document.getElementById('dateType').value;
+            const day = document.getElementById('dateDay').value;
+            const time = document.getElementById('dateTime').value || "Anytime!";
+            
+            // Update container one last time to say goodbye beautifully
+            const container = document.getElementById('plannerForm');
+            container.innerHTML = `
+                <div style="padding: 20px 0;">
+                    <h2 style="margin-bottom: 10px;">Perfect! It's Booked! 🥰</h2>
+                    <p style="color: #4f5d75;">I'll read over your choices and shoot you a text right away to finalize everything!</p>
+                    <div style="font-size: 40px; margin-top: 15px;">💌✨</div>
+                </div>
+            `;
         }
     </script>
 </body>
