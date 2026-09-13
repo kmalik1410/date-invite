@@ -15,7 +15,7 @@
             background-color: #ffe6e6;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
-            overflow-x: hidden;
+            overflow: hidden;
         }
         .container {
             background-color: white;
@@ -25,11 +25,6 @@
             max-width: 90%;
             width: 360px;
             z-index: 10;
-            position: relative;
-            min-height: 400px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
         }
         h1 {
             color: #ff4d6d;
@@ -47,14 +42,13 @@
             margin-bottom: 20px;
             border-radius: 10px;
         }
+        /* Buttons sit naturally side-by-side now */
         .btn-group {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            position: relative;
-            height: 60px;
-            align-items: center;
-            margin-top: 10px;
+            gap: 20px;
+            margin-top: 20px;
+            height: 50px;
         }
         button {
             padding: 12px 25px;
@@ -63,18 +57,17 @@
             border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
-            transition: transform 0.1s ease;
         }
         #yesBtn {
             background-color: #ff4d6d;
             color: white;
+            transition: transform 0.2s ease;
         }
         #noBtn {
             background-color: #6c757d;
             color: white;
-            position: absolute;
-            /* Default initial placement side-by-side */
-            left: 190px; 
+            /* Smooth transitions for jumping around */
+            transition: transform 0.2s ease; 
         }
         /* Date Selector Styles */
         .planner-form {
@@ -130,15 +123,14 @@
     <div class="container" id="mainContainer">
         <div id="inviteStage">
             <div class="gif-container">
-                <!-- Premium High-Quality Milk & Mocha Kissing Gif -->
-                <img src="https://giphy.com" alt="Cute hearts animation">
+                <!-- Direct ultra-reliable Milk & Mocha kissing GIF -->
+                <img src="https://giphy.com" alt="Cute animation">
             </div>
             <h1 id="question">Will you go on a virtual date with me? ☕✨</h1>
             <p id="details">Let's set up something fun!</p>
             
             <div class="btn-group">
-                <!-- Hardcoded position to prevent initial overlaps -->
-                <button id="yesBtn" style="position: absolute; left: 50px;" onclick="celebrate()">Yes! 🥰</button>
+                <button id="yesBtn" onclick="celebrate()">Yes! 🥰</button>
                 <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No 😢</button>
             </div>
         </div>
@@ -179,19 +171,13 @@
     <script>
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
-            const container = document.getElementById('mainContainer');
             
-            // Constrain movement strictly to the boundaries of the white container box
-            const padding = 20;
-            const maxX = container.clientWidth - noBtn.offsetWidth - padding;
-            const maxY = container.clientHeight - noBtn.offsetHeight - padding;
+            // Generate a random position to jump to across the screen
+            // Using viewport widths/heights relative boundaries safely
+            const randomX = Math.floor(Math.random() * 240) - 120; // Moves left or right up to 120px
+            const randomY = Math.floor(Math.random() * 300) - 150; // Moves up or down up to 150px
             
-            // Randomly jump anywhere within the white box
-            const randomX = Math.floor(Math.random() * (maxX - padding)) + padding;
-            const randomY = Math.floor(Math.random() * (maxY - padding)) + padding;
-            
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
+            noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
         }
 
         function celebrate() {
@@ -234,7 +220,7 @@
                 <div style="padding: 20px 0; text-align: center;">
                     <h2 style="margin-bottom: 10px;">Perfect! It's Booked! 🥰</h2>
                     <p style="color: #4f5d75;">I'll read over your choices and shoot you a text right away to finalize everything!</p>
-                    <div style="font-size: 40px; margin-top: 15px;">跑 ✨</div>
+                    <div style="font-size: 40px; margin-top: 15px;">💌✨</div>
                 </div>
             `;
         }
