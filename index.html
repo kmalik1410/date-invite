@@ -36,7 +36,6 @@
             font-size: 16px;
             margin-bottom: 25px;
         }
-        /* Beautiful native CSS pulsing heart icon */
         .emoji-avatar {
             font-size: 70px;
             margin-bottom: 20px;
@@ -48,7 +47,6 @@
             50% { transform: scale(1.15); }
             100% { transform: scale(1); }
         }
-        /* Buttons sit safely side-by-side initially with a gap */
         .btn-group {
             display: flex;
             justify-content: center;
@@ -121,13 +119,23 @@
             border: none;
             cursor: pointer;
         }
+        /* Summary Box for Results */
+        .summary-box {
+            background-color: #fff0f2;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px dashed #ff4d6d;
+            margin: 15px 0;
+            font-size: 14px;
+            color: #4f5d75;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div id="inviteStage">
-            <!-- Pure emoji cluster - no image tags used at all -->
             <div class="emoji-avatar">💗</div>
             <h1 id="question">Will you go on a virtual date with me? ☕✨</h1>
             <p id="details">Let's set up something fun!</p>
@@ -145,20 +153,20 @@
             <div class="form-group">
                 <label for="dateType">What kind of date sounds best?</label>
                 <select id="dateType">
-                    <option value="Virtual Coffee">☕ Virtual Coffee Chat</option>
-                    <option value="Movie Stream">🎬 Co-watching a Movie</option>
-                    <option value="Online Games">🎮 Playing Online Games</option>
-                    <option value="Surprise Me">🎁 Surprise Me!</option>
+                    <option value="Virtual Coffee Chat ☕">☕ Virtual Coffee Chat</option>
+                    <option value="Co-watching a Movie 🎬">🎬 Co-watching a Movie</option>
+                    <option value="Playing Online Games  \%)$.">🎮 Playing Online Games</option>
+                    <option value="Surprise Me! 🎁">🎁 Surprise Me!</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="dateDay">Preferred Day</label>
                 <select id="dateDay">
-                    <option value="Friday">Friday Night</option>
+                    <option value="Friday Night">Friday Night</option>
                     <option value="Saturday">Saturday</option>
                     <option value="Sunday">Sunday</option>
-                    <option value="Weekdays">A Weekday Evening</option>
+                    <option value="A Weekday Evening">A Weekday Evening</option>
                 </select>
             </div>
 
@@ -221,14 +229,37 @@
         }
 
         function submitPreferences() {
+            const type = document.getElementById('dateType').value;
+            const day = document.getElementById('dateDay').value;
+            const time = document.getElementById('dateTime').value || "Anytime!";
+            
+            const messageText = `I filled out the date invite form 🥰\n\n✨ Activity: ${type}\n📅 Day: ${day}\n⏰ Time/Notes: ${time}\n\nIt's a date! ❤️`;
+            
             const container = document.getElementById('plannerForm');
             container.innerHTML = `
-                <div style="padding: 20px 0; text-align: center;">
+                <div style="text-align: center;">
                     <h2 style="margin-bottom: 10px;">Perfect! It's Booked! 🥰</h2>
-                    <p style="color: #4f5d75;">I'll read over your choices and shoot you a text right away to finalize everything!</p>
-                    <div style="font-size: 40px; margin-top: 15px;">💌✨</div>
+                    <p style="color: #4f5d75; font-size: 14px;">Tap the button below to copy your selections, then paste them back into our text chat!</p>
+                    
+                    <div class="summary-box" id="textToCopy">${messageText.replace(/\n/g, '<br>')}</div>
+                    
+                    <button class="submit-btn" id="copyBtn" onclick="copyToClipboard('${btoa(unescape(encodeURIComponent(messageText)))}')">Copy Details 📋</button>
+                    <p id="copyAlert" style="color: #ff4d6d; font-size: 13px; margin-top: 10px; font-weight: bold; display: none;">Copied! Ready to paste into our chat thread. 💌</p>
                 </div>
             `;
+        }
+
+        function copyToClipboard(base64Str) {
+            const decodedText = decodeURIComponent(escape(atob(base64Str)));
+            navigator.clipboard.writeText(decodedText).then(() => {
+                const alertText = document.getElementById('copyAlert');
+                const btn = document.getElementById('copyBtn');
+                alertText.style.display = 'block';
+                btn.innerText = 'Copied! ✅';
+                btn.style.backgroundColor = '#4abc96';
+            }).catch(err => {
+                alert('Oops, copying failed! You can manually copy the text inside the box.');
+            });
         }
     </script>
 </body>
