@@ -25,7 +25,11 @@
             max-width: 90%;
             width: 360px;
             z-index: 10;
-            transition: all 0.5s ease;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         h1 {
             color: #ff4d6d;
@@ -45,10 +49,12 @@
         }
         .btn-group {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
+            gap: 30px;
             position: relative;
             height: 60px;
             align-items: center;
+            margin-top: 10px;
         }
         button {
             padding: 12px 25px;
@@ -62,19 +68,19 @@
         #yesBtn {
             background-color: #ff4d6d;
             color: white;
-            z-index: 5;
         }
         #noBtn {
             background-color: #6c757d;
             color: white;
             position: absolute;
-            z-index: 20;
+            /* Default initial placement side-by-side */
+            left: 190px; 
         }
         /* Date Selector Styles */
         .planner-form {
             display: none;
             text-align: left;
-            margin-top: 20px;
+            margin-top: 10px;
             opacity: 0;
             transition: opacity 0.5s ease;
         }
@@ -124,14 +130,15 @@
     <div class="container" id="mainContainer">
         <div id="inviteStage">
             <div class="gif-container">
-                <!-- Direct animated peach goma milk love gif -->
+                <!-- Premium High-Quality Milk & Mocha Kissing Gif -->
                 <img src="https://giphy.com" alt="Cute hearts animation">
             </div>
             <h1 id="question">Will you go on a virtual date with me? ☕✨</h1>
             <p id="details">Let's set up something fun!</p>
             
             <div class="btn-group">
-                <button id="yesBtn" onclick="celebrate()">Yes! 🥰</button>
+                <!-- Hardcoded position to prevent initial overlaps -->
+                <button id="yesBtn" style="position: absolute; left: 50px;" onclick="celebrate()">Yes! 🥰</button>
                 <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No 😢</button>
             </div>
         </div>
@@ -143,10 +150,10 @@
             <div class="form-group">
                 <label for="dateType">What kind of date sounds best?</label>
                 <select id="dateType">
-                    <option value="Virtual Coffee">☕ Virtual Coffee</option>
+                    <option value="Virtual Coffee">☕ Virtual Coffee Chat</option>
                     <option value="Movie Stream">🎬 Co-watching a Movie</option>
                     <option value="Online Games">🎮 Playing Online Games</option>
-                    <option value="Surprise You">🎁 Surprise You!</option>
+                    <option value="Surprise Me">🎁 Surprise Me!</option>
                 </select>
             </div>
 
@@ -172,28 +179,28 @@
     <script>
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
+            const container = document.getElementById('mainContainer');
             
-            // Calculate randomized window boundaries securely
-            const maxX = window.innerWidth - noBtn.offsetWidth - 40;
-            const maxY = window.innerHeight - noBtn.offsetHeight - 40;
+            // Constrain movement strictly to the boundaries of the white container box
+            const padding = 20;
+            const maxX = container.clientWidth - noBtn.offsetWidth - padding;
+            const maxY = container.clientHeight - noBtn.offsetHeight - padding;
             
-            const x = Math.max(20, Math.min(Math.random() * maxX, maxX));
-            const y = Math.max(20, Math.min(Math.random() * maxY, maxY));
+            // Randomly jump anywhere within the white box
+            const randomX = Math.floor(Math.random() * (maxX - padding)) + padding;
+            const randomY = Math.floor(Math.random() * (maxY - padding)) + padding;
             
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
         }
 
         function celebrate() {
-            // Hide invitation content smoothly
             document.getElementById('inviteStage').style.display = 'none';
             
-            // Reveal and fade-in the scheduling menu
             const form = document.getElementById('plannerForm');
             form.style.display = 'block';
             setTimeout(() => { form.style.opacity = '1'; }, 50);
             
-            // Start raining hearts effect
             for (let i = 0; i < 25; i++) {
                 setTimeout(createHeart, i * 100);
             }
@@ -222,17 +229,12 @@
         }
 
         function submitPreferences() {
-            const type = document.getElementById('dateType').value;
-            const day = document.getElementById('dateDay').value;
-            const time = document.getElementById('dateTime').value || "Anytime!";
-            
-            // Update container one last time to say goodbye beautifully
             const container = document.getElementById('plannerForm');
             container.innerHTML = `
-                <div style="padding: 20px 0;">
+                <div style="padding: 20px 0; text-align: center;">
                     <h2 style="margin-bottom: 10px;">Perfect! It's Booked! 🥰</h2>
                     <p style="color: #4f5d75;">I'll read over your choices and shoot you a text right away to finalize everything!</p>
-                    <div style="font-size: 40px; margin-top: 15px;">💌✨</div>
+                    <div style="font-size: 40px; margin-top: 15px;">跑 ✨</div>
                 </div>
             `;
         }
